@@ -5,8 +5,13 @@ using System.Threading;
 
 namespace HW_1_18_02_21
 {
+    
     class Matrix
     {
+        public void GetDarkGreen() => Console.ForegroundColor = ConsoleColor.DarkGreen;
+        public void GetGreen() => Console.ForegroundColor = ConsoleColor.Green;
+        public void GetWhite() => Console.ForegroundColor = ConsoleColor.White;
+
         Random rng = new Random();
         string symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         public int column { get; set; }
@@ -42,7 +47,27 @@ namespace HW_1_18_02_21
                     {
                         new Thread((new Matrix(column, false)).Running).Start(); second = false;
                     }
-                    
+                    if (41 - i < length) length--;
+                    Console.CursorTop = i - length + 1; 
+                    GetDarkGreen();
+                    for (int j = 0; j < length - 2; j++)
+                    {
+                        Console.CursorLeft = column;
+                        Console.WriteLine(getSymbols());
+                    }
+                    if(length >= 2)
+                    {
+                        GetGreen();
+                        Console.CursorLeft = column;
+                        Console.WriteLine(getSymbols());
+                    }
+                    else if(length >= 1)
+                    {
+                        GetWhite();
+                        Console.CursorLeft = column;
+                        Console.WriteLine(getSymbols());
+                    }
+                    Thread.Sleep(10);
                 }
             }
         }
