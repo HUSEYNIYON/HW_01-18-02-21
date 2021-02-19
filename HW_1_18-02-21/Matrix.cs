@@ -5,75 +5,75 @@ using System.Threading;
 
 namespace HW_1_18_02_21
 {
-    
+
     class Matrix
     {
-        public void GetDarkGreen() => Console.ForegroundColor = ConsoleColor.DarkGreen;
-        public void GetGreen() => Console.ForegroundColor = ConsoleColor.Green;
-        public void GetWhite() => Console.ForegroundColor = ConsoleColor.White;
-
-        Random rng;
+        Random rand;
         static object locker = new object();
-        const string symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        public int column { get; set; }
-        public bool second { get; set; }
-        public Matrix(int column, bool second)
+        const string litters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        public int Colunm { get; set; }
+        public bool NeedSecond { get; set; }
+        public Matrix(int col, bool needSecond)
         {
-            this.column = column;
-            rng = new Random((int)DateTime.Now.Ticks);
-            this.second = second;
+            Colunm = col;
+            rand = new Random((int)DateTime.Now.Ticks);
+            NeedSecond = needSecond;
         }
-        char getSymbols()
+        char GetChar()
         {
-            return symbols.ToCharArray()[rng.Next(0, 35)];
+            return litters.ToCharArray()[rand.Next(0, 35)];
         }
-        public void Running()
+        public void Move()
         {
+            int lenght;
             int count;
-            int length;
             while (true)
             {
-                 count = rng.Next(3, 10);
-                 length = 0;
-                Thread.Sleep(rng.Next(20, 5000));
+                count = rand.Next(3, 12);
+                lenght = 0;
+                Thread.Sleep(rand.Next(20, 500));
                 for (int i = 0; i < 42; i++)
                 {
                     lock (locker)
                     {
                         Console.ForegroundColor = ConsoleColor.Black;
-                        Console.CursorTop = i - length;
-                        for (int j = i - length - 1; j < i; j++)
+                        Console.CursorTop = i - lenght;
+                        for (int j = i - lenght - 1; j < i; j++)
                         {
-                            Console.CursorLeft = column;
+                            Console.CursorLeft = Colunm;
                             Console.WriteLine(" ");
                         }
-                        if (length < count) length++;
-                        else if (length == count) count = 0;
-                        if (second && i < 20 && i > length + 2 && (rng.Next(1, 5) == 3))
+                        if (lenght < count)
+                            lenght++;
+                        else if (lenght == count)
+                            count = 0;
+                        if (NeedSecond && i < 20 && i > lenght + 2 && (rand.Next(1, 5) == 3))
                         {
-                            new Thread((new Matrix(column, false)).Running).Start(); second = false;
+                            new Thread((new Matrix(Colunm, false)).Move).Start();
+                            NeedSecond = false;
                         }
-                        if (41 - i < length) length--;
-                        Console.CursorTop = i - length + 1;
-                        GetDarkGreen();
-                        for (int j = 0; j < length - 2; j++)
+                        if (41 - i < lenght)
+                            lenght--;
+                        Console.CursorTop = i - lenght + 1;
+                        Console.ForegroundColor = ConsoleColor.DarkGreen;
+                        for (int j = 0; j < lenght - 2; j++)
                         {
-                            Console.CursorLeft = column;
-                            Console.WriteLine(getSymbols());
+                            Console.CursorLeft = Colunm;
+                            Console.WriteLine(GetChar());
                         }
-                        if (length >= 2)
+                        if (lenght >= 2)
                         {
-                            GetGreen();
-                            Console.CursorLeft = column;
-                            Console.WriteLine(getSymbols());
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.CursorLeft = Colunm;
+                            Console.WriteLine(GetChar());
                         }
-                        else if (length >= 1)
+                        if (lenght >= 1)
                         {
-                            GetWhite();
-                            Console.CursorLeft = column;
-                            Console.WriteLine(getSymbols());
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.CursorLeft = Colunm;
+                            Console.WriteLine(GetChar());
                         }
-                        Thread.Sleep(10);
+                        Thread.Sleep(15);
                     }
                 }
             }

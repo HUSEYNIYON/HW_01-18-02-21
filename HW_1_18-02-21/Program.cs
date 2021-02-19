@@ -9,42 +9,40 @@ namespace HW_1_18_02_21
         static void Main(string[] args)
         {
             Console.SetWindowSize(150, 30);
-            for (int i = 0; i < 160; i++)
+            for (int i = 0; i < 150; i++)
             {
-                Matrix matrix = new Matrix(i, true);
-                new Thread(matrix.Running).Start();
+                Matrix instance = new Matrix(i, true);
+                new Thread(instance.Move).Start();
             }
         }
-        public static void threadSum()
+        static void ThreadGetSumm()
         {
-            Thread thread = new Thread(new ThreadStart(GetSumma));
-            thread.Start();
+            Thread Thread1 = new Thread(new ThreadStart(GetSumm));
+            Thread1.Start();
         }
-       
-        static async void SumAsync()
+        static async void SummAsync()
         {
-            await Task.Run(() => Summa(1,5));
-            await Task.Run(() => Summa(5, 10));
-            await Task.Run(() => Summa(2, 5));
-            await Task.Run(() => Summa(10, 18));
+            await Task.Run(() => Summ(1, 5));
+            await Task.Run(() => Summ(5, 10));
+            await Task.Run(() => Summ(2, 5));
+            await Task.Run(() => Summ(10, 18));
         }
-        static void ParallelSum()
+        static void ParallelSumm()
         {
-            Parallel.Invoke(GetSumma, () => GetSumma(), () => GetSumma());
+            Parallel.Invoke(GetSumm, () => GetSumm(), () => GetSumm());
         }
-        static void GetSumma()
+        static void GetSumm()
         {
             int result = 0;
             for (int i = 1; i <= 10; i++)
             {
                 result += i;
-                Console.WriteLine(result);
+                System.Console.WriteLine(result);
                 Thread.Sleep(1000);
             }
-            Console.WriteLine($"Сумма от 1 до 10 рaвен {result}");
+            Console.WriteLine($"Сумма от 1 до 10 ровен {result}");
         }
-       
-        public static void Summa(int begin, int end)
+        static void Summ(int begin, int end)
         {
             int result = 0;
             for (int i = begin; i <= end; i++)
