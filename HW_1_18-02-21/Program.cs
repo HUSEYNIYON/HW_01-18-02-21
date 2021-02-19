@@ -6,7 +6,7 @@ namespace HW_1_18_02_21
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            
         }
     }
 }
